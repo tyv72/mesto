@@ -1,0 +1,16 @@
+@import url('./__add-button/profile__add-button.css');
+@import url('./__content/profile__content.css');
+
+.profile {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+  margin: 40px auto 0;
+}
+
+@media screen and (max-width: 680px) {
+  .profile {
+    flex-direction: column;
+  }
+}

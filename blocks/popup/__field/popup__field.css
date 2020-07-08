@@ -1,0 +1,13 @@
+.popup__field {
+  font-family: inherit;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 1.2;
+
+  width: 100%;
+
+  border: 0;
+  
+  margin: 30px auto 0;
+}

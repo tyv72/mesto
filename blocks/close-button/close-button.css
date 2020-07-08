@@ -1,0 +1,19 @@
+@import url('./__logo/close-button__logo.css');
+
+.close-button {
+  position: absolute;
+
+  border: 0;
+  background: transparent;
+  
+  top: -47px;
+  right: -47px;
+
+  z-index: 20;
+}
+
+@media screen and (max-width: 430px) {
+  .close-button {
+    right: 0;    
+  }
+}

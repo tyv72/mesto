@@ -1,0 +1,16 @@
+.profile-info__about {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 1.22;
+
+  color: #FFFFFF;
+
+  margin-top: 16px;
+}
+
+@media screen and (max-width: 680px) {
+  .profile-info__about {
+    margin-top: 0;
+  }
+}
