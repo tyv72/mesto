@@ -14,11 +14,15 @@
   
   width: 150px;
   height: 50px;
+
+  padding: 0;
 }
 
 @media screen and (max-width: 680px) {
   .profile__add-button {
     width: 100%;
     max-width: 282px;
+
+    margin-top: 36px;
   }
 }
