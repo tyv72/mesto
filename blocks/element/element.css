@@ -1,10 +1,11 @@
 @import url('./__caption/element__caption.css');
 @import url('./__description/element__description.css');
-@import url('./__like-icon/element__like-icon.css');
+@import url('./__like-button/element__like-button.css');
 
 .element {
   width: 282px;
-  
+    
+  border-radius: 10px;
   background-color: #FFFFFF;
   overflow: hidden;
 

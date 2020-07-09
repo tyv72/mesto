@@ -13,80 +13,73 @@
       </header>
 
       <div class="popup popup_closed">
-        <form class="popup__container rounded-corner"> 
-          <button class="close-button darkling-button">
-            <img src="./images/Close-icon.svg" alt="Закрыть" class="close-button__logo">
+        <form class="popup__container"> 
+          <button class="popup__close-button darkling-button">
+            <img src="./images/Close-icon.svg" alt="Закрыть" class="popup__close-logo">
           </button>         
           <p class="popup__title">Редактировать профиль<p>
           <input type="text" class="popup__field popup__field_item_name" required>
-          <div class="dividing-line"></div>
-          <input type="text" class="popup__field popup__field_item_about" required>
-          <div class="dividing-line"></div>              
+          <input type="text" class="popup__field popup__field_item_about" required>               
           <button type="submit" class="popup__save-button darkling-button">Сохранить</button>
         </form>                                    
       </div>      
 
       <main class="content main-size">
         <section class="profile">
-          <div class="profile__content">
-            <img src="./images/Custo.jpg" alt="Жак Ив Кусто" class="avatar">            
-            <div class="profile-info">
-              <div class="profile-info__content">
-                <h1 class="profile-info__name">
-                  Жак-Ив Кусто                                                             
-                </h1>
-                <span class="profile-info__edit-button darkling-button"></span>
-              </div>                            
-              <h2 class="profile-info__about">Исследователь океана</h2>                          
-            </div>  
-          </div>
-          
-          <button class="profile__add-button darkling-button">
-            <img src="./images/Add-icon.svg" alt="Добавить" class="profile__add-icon">
-          </button>                  
+          <img src="./images/Custo.jpg" alt="Жак Ив Кусто" class="avatar">            
+          <div class="profile__info">
+            <div class="profile__content">
+              <h1 class="profile__name">
+                Жак-Ив Кусто                                                             
+              </h1>
+              <button class="profile__edit-button darkling-button"></button>
+            </div>                            
+            <h2 class="profile__about">Исследователь океана</h2>                          
+          </div>                      
+          <button class="profile__add-button darkling-button"></button>                  
         </section>
 
         <section class="elements">
-          <figure class="element rounded-corner">
+          <figure class="element">
             <img src="./images/kirill-pershin-1st.jpg" alt="Домбай">   
             <figcaption class="element__caption">
               <p class="element__description">Домбай</p>     
-              <img src="./images/Heart.svg" class="element__like-icon" alt="Нравится (иконка)">
+              <button class="element__like-button darkling-button"></button>
             </figcaption>              
           </figure>
-          <figure class="element rounded-corner">
+          <figure class="element">
             <img src="./images/kirill-pershin-2nd.jpg" alt="Гора Эльбрус">   
             <figcaption class="element__caption">
               <p class="element__description">Гора Эльбрус</p>     
-              <img src="./images/Heart.svg" class="element__like-icon" alt="Нравится (иконка)">
+              <button class="element__like-button darkling-button"></button>
             </figcaption>      
           </figure>
-          <figure class="element rounded-corner">
+          <figure class="element">
             <img src="./images/kirill-pershin-3d.jpg" alt="Карачаевск">  
             <figcaption class="element__caption">
               <p class="element__description">Карачаевск</p>     
-              <img src="./images/Heart.svg" class="element__like-icon" alt="Нравится (иконка)">
+              <button class="element__like-button darkling-button"></button>
             </figcaption>        
           </figure>
-          <figure class="element rounded-corner">
+          <figure class="element">
             <img src="./images/kirill-pershin-1st.jpg" alt="Домбай">   
             <figcaption class="element__caption">
               <p class="element__description">Домбай</p>
-              <img src="./images/Heart.svg" class="element__like-icon" alt="Нравится (иконка)">                 
+              <button class="element__like-button darkling-button"></button>                 
             </figcaption>              
           </figure>
-          <figure class="element rounded-corner">
+          <figure class="element">
             <img src="./images/kirill-pershin-2nd.jpg" alt="Гора Эльбрус">   
             <figcaption class="element__caption">
               <p class="element__description">Гора Эльбрус</p>     
-              <img src="./images/Heart.svg" class="element__like-icon" alt="Нравится (иконка)">
+              <button class="element__like-button darkling-button"></button>
             </figcaption>      
           </figure>
-          <figure class="element rounded-corner">
+          <figure class="element">
             <img src="./images/kirill-pershin-3d.jpg" alt="Карачаево-Черкесия">  
             <figcaption class="element__caption">
               <p class="element__description">Карачаево-Черкесия</p>     
-              <img src="./images/Heart.svg" class="element__like-icon" alt="Нравится (иконка)">
+              <button class="element__like-button darkling-button"></button>
             </figcaption>        
           </figure>          
         </section>

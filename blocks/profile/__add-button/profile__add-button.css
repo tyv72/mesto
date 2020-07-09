@@ -2,9 +2,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  
+
+  flex-grow: 0;
+
   border: 1px solid #FFFFFF;
   background-color: #000000;
+  background-image: url('../../../images/Add-icon.svg');
+  background-repeat: no-repeat;
+  background-size: initial;
+  background-position: center;
   
   width: 150px;
   height: 50px;

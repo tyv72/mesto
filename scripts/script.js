@@ -1,13 +1,13 @@
-let closeButton = document.querySelector('.close-button');
-let editButton = document.querySelector('.profile-info__edit-button');
+let closeButton = document.querySelector('.popup__close-button');
+let editButton = document.querySelector('.profile__edit-button');
 
 let popup = document.querySelector('.popup');
 let popupNameField = document.querySelector('.popup__field_item_name');
 let popupAboutField = document.querySelector('.popup__field_item_about');
 let popupForm = document.querySelector('.popup__container');
 
-let nameField = document.querySelector('.profile-info__name');
-let aboutField = document.querySelector('.profile-info__about');
+let nameField = document.querySelector('.profile__name');
+let aboutField = document.querySelector('.profile__about');
 
 let closePopup = function() {
   popup.classList.remove('popup_opened');
