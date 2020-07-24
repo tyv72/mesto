@@ -1,0 +1,9 @@
+.popup__image-container {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  max-width: 75vw;
+  height: 75vh;
+}

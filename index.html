@@ -12,18 +12,6 @@
         <img src="./images/Header-logo.svg" alt="Место" class="header__logo">             
       </header>
 
-      <div class="popup popup_closed">
-        <form class="popup__container"> 
-          <button class="popup__close-button darkling-button">
-            <img src="./images/Close-icon.svg" alt="Закрыть" class="popup__close-logo">
-          </button>         
-          <p class="popup__title">Редактировать профиль<p>
-          <input type="text" class="popup__field popup__field_item_name" required>
-          <input type="text" class="popup__field popup__field_item_about" required>               
-          <button type="submit" class="popup__save-button darkling-button">Сохранить</button>
-        </form>                                    
-      </div>      
-
       <main class="content main-size">
         <section class="profile">
           <img src="./images/Custo.jpg" alt="Жак Ив Кусто" class="avatar">            
@@ -39,57 +27,54 @@
           <button class="profile__add-button darkling-button"></button>                  
         </section>
 
-        <section class="elements">
-          <figure class="element">
-            <img src="./images/kirill-pershin-1st.jpg" alt="Домбай">   
-            <figcaption class="element__caption">
-              <p class="element__description">Домбай</p>     
-              <button class="element__like-button darkling-button"></button>
-            </figcaption>              
-          </figure>
-          <figure class="element">
-            <img src="./images/kirill-pershin-2nd.jpg" alt="Гора Эльбрус">   
-            <figcaption class="element__caption">
-              <p class="element__description">Гора Эльбрус</p>     
-              <button class="element__like-button darkling-button"></button>
-            </figcaption>      
-          </figure>
-          <figure class="element">
-            <img src="./images/kirill-pershin-3d.jpg" alt="Карачаевск">  
-            <figcaption class="element__caption">
-              <p class="element__description">Карачаевск</p>     
-              <button class="element__like-button darkling-button"></button>
-            </figcaption>        
-          </figure>
-          <figure class="element">
-            <img src="./images/kirill-pershin-1st.jpg" alt="Домбай">   
-            <figcaption class="element__caption">
-              <p class="element__description">Домбай</p>
-              <button class="element__like-button darkling-button"></button>                 
-            </figcaption>              
-          </figure>
-          <figure class="element">
-            <img src="./images/kirill-pershin-2nd.jpg" alt="Гора Эльбрус">   
-            <figcaption class="element__caption">
-              <p class="element__description">Гора Эльбрус</p>     
-              <button class="element__like-button darkling-button"></button>
-            </figcaption>      
-          </figure>
-          <figure class="element">
-            <img src="./images/kirill-pershin-3d.jpg" alt="Карачаево-Черкесия">  
-            <figcaption class="element__caption">
-              <p class="element__description">Карачаево-Черкесия</p>     
-              <button class="element__like-button darkling-button"></button>
-            </figcaption>        
-          </figure>          
+        <section class="card-gallery">                    
         </section>
       </main>
 
       <footer class="footer main-size">
         <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
-      </footer>
-
-      <script src="./scripts/script.js"></script>
+      </footer>      
     </div>
+
+    <template id="card">
+      <figure class="card">
+        <img class="card__image">  
+        <button class="card__trash darkling-button"></button>
+        <figcaption class="card__caption">
+          <p class="card__description"></p>     
+          <button class="card__like-button darkling-button"></button>
+        </figcaption>        
+      </figure>
+    </template>
+
+    <template id="popup">
+      <div class="popup popup_color_light">
+        <form class="popup__container"> 
+          <button class="popup__close-button darkling-button">
+            <img src="./images/Close-icon.svg" alt="Закрыть" class="popup__close-logo">
+          </button>         
+          <p class="popup__title"><p>
+          <input type="text" class="popup__field popup__field_item_name" required>
+          <input type="text" class="popup__field popup__field_item_about" required>               
+          <button type="submit" class="popup__save-button darkling-button">Сохранить</button>
+        </form>                                    
+      </div>
+    </template>
+
+    <template id="cardPopup">
+      <div class="popup popup_color_dark">
+        <div class="popup__card-container">
+          <button class="popup__close-button darkling-button">
+            <img src="./images/Close-icon.svg" alt="Закрыть" class="popup__close-logo">
+          </button> 
+          <div class="popup__image-container">
+            <img class="popup__card-image">
+          </div>                  
+          <p class="popup__card-caption"></p>  
+        </div>                                       
+      </div>
+    </template>   
+
+    <script src="./scripts/script.js"></script>
   </body>
 </html>

@@ -1,0 +1,11 @@
+.popup__card-container {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;    
+
+  margin: 68px auto;
+
+  min-width: 240px;
+}

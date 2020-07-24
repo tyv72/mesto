@@ -9,9 +9,3 @@
 
   z-index: 20;
 }
-
-@media screen and (max-width: 490px) {
-  .popup__close-button {
-    right: -10px;    
-  }
-}

@@ -1,0 +1,10 @@
+.popup__card-caption {
+  align-self: flex-start;
+  
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 1.25;
+
+  color: #ffffff;
+}

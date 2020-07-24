@@ -14,3 +14,9 @@
   
   margin: 30px auto 0;
 }
+
+@media screen and (max-width: 430px) {
+  .popup__field {
+    font-size: 12px;
+  }
+}

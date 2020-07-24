@@ -1,8 +1,6 @@
 .popup__container {
-  position: fixed;
-  top: calc(50vh - 165px);
-  left: calc(50vw - 215px);
-
+  position: relative;
+  
   border-radius: 10px;
   background-color: #FFFFFF;  
   width: 430px;
@@ -10,14 +8,12 @@
   box-sizing: border-box;
   padding: 34px 36px 36px;
   margin: 0;
-
-  z-index: 20;
 }
 
 @media screen and (max-width: 430px) {
   .popup__container {
     left: 0;
-    width: 100%;
-    min-width: 320px;
+    width: calc(100% - 80px);
+    min-width: 240px;
   }
 }
