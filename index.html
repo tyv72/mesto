@@ -12,6 +12,42 @@
         <img src="./images/Header-logo.svg" alt="Место" class="header__logo">             
       </header>
 
+      <div class="popup popup_type_edit-profile popup_color_light">
+        <form class="popup__container"> 
+          <button class="popup__close-button darkling-button">
+            <img src="./images/Close-icon.svg" alt="Закрыть" class="popup__close-logo">
+          </button>         
+          <p class="popup__title">Редактировать профиль<p>
+          <input type="text" class="popup__field popup__field_item_name" placeholder="Имя" required>
+          <input type="text" class="popup__field popup__field_item_about" placeholder="Описание" required>               
+          <button type="submit" class="popup__save-button darkling-button">Сохранить</button>
+        </form>                                    
+      </div>
+
+      <div class="popup popup_type_add-card popup_color_light">
+        <form class="popup__container"> 
+          <button class="popup__close-button darkling-button">
+            <img src="./images/Close-icon.svg" alt="Закрыть" class="popup__close-logo">
+          </button>         
+          <p class="popup__title">Новое место<p>
+          <input type="text" class="popup__field popup__field_item_place" placeholder="Название" required>
+          <input type="text" class="popup__field popup__field_item_link" placeholder="Ссылка на картинку" required>               
+          <button type="submit" class="popup__save-button darkling-button">Сохранить</button>
+        </form>                                    
+      </div>
+
+      <div class="popup popup_type_view-card popup_color_dark">
+        <div class="popup__card-container">
+          <button class="popup__close-button darkling-button">
+            <img src="./images/Close-icon.svg" alt="Закрыть" class="popup__close-logo">
+          </button> 
+          <div class="popup__image-container">
+            <img class="popup__card-image">
+          </div>                  
+          <p class="popup__card-caption"></p>  
+        </div>                                       
+      </div>
+
       <main class="content main-size">
         <section class="profile">
           <img src="./images/Custo.jpg" alt="Жак Ив Кусто" class="avatar">            
@@ -27,7 +63,7 @@
           <button class="profile__add-button darkling-button"></button>                  
         </section>
 
-        <section class="card-gallery">                    
+        <section class="card-gallery">                        
         </section>
       </main>
 
@@ -46,35 +82,7 @@
         </figcaption>        
       </figure>
     </template>
-
-    <template id="popup">
-      <div class="popup popup_color_light">
-        <form class="popup__container"> 
-          <button class="popup__close-button darkling-button">
-            <img src="./images/Close-icon.svg" alt="Закрыть" class="popup__close-logo">
-          </button>         
-          <p class="popup__title"><p>
-          <input type="text" class="popup__field popup__field_item_name" required>
-          <input type="text" class="popup__field popup__field_item_about" required>               
-          <button type="submit" class="popup__save-button darkling-button">Сохранить</button>
-        </form>                                    
-      </div>
-    </template>
-
-    <template id="cardPopup">
-      <div class="popup popup_color_dark">
-        <div class="popup__card-container">
-          <button class="popup__close-button darkling-button">
-            <img src="./images/Close-icon.svg" alt="Закрыть" class="popup__close-logo">
-          </button> 
-          <div class="popup__image-container">
-            <img class="popup__card-image">
-          </div>                  
-          <p class="popup__card-caption"></p>  
-        </div>                                       
-      </div>
-    </template>   
-
+    
     <script src="./scripts/script.js"></script>
   </body>
 </html>

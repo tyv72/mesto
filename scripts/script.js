@@ -1,6 +1,4 @@
 /** Шаблоны для создания элементов */
-const popupTemplate = document.querySelector('#popup').content;
-const cardPopupTemplate = document.querySelector('#cardPopup').content;
 const cardTemplate = document.querySelector('#card').content;
 
 /** Элементы на странице */
@@ -11,6 +9,11 @@ const addButton = document.querySelector('.profile__add-button');
 const profileName = document.querySelector('.profile__name');
 const profileAbout = document.querySelector('.profile__about');
 const cardGallery = document.querySelector('.card-gallery');
+
+/** Модалки */
+const editProfileModal = document.querySelector('.popup_type_edit-profile');
+const addCardModal = document.querySelector('.popup_type_add-card');
+const viewCardModal = document.querySelector('.popup_type_view-card');
 
 /** Предопределенный массив с данными для заполнения карточек */
 const initialCards = [
@@ -41,103 +44,45 @@ const initialCards = [
 ];
 
 /**
- * Открывает попап. 
- * В зависимости от того, на какую кнопку кликнули, будет выбран шаблон для попапа 
- * (форма для редактирования профиля, форма для добавления карточки, попап просмотра карточки).
+ * Открывает или закрывает попап.
  * 
- * @param {*} event 
+ * @param {*} modalWindow Попап, который нужно открыть или закрыть.
  */
-const openPopup = function(event) {
-  if (event.target.classList.contains('profile__edit-button')) {
-    createEditInfoForm();
-  } else if (event.target.classList.contains('profile__add-button')){
-    createAddCardForm();
-  } else {
-    createCardPopup(event);
-  }  
+const toggleModal = function(modalWindow) {
+  event.preventDefault();
+
+  modalWindow.classList.toggle('popup_opened');
 }
 
 /**
- * Создает из шаблона форму редактирования профиля.
+ * Открывает форму редактирования профиля.
  */
-const createEditInfoForm = function() {
-  const popup = popupTemplate.cloneNode(true);
-
-  // Событие submit вешается на форму (а не на кнопку Сохранить)
-  let editInfoForm = popup.querySelector('.popup__container');
-  editInfoForm.addEventListener('submit', saveInfo);
-
-  const popupTitle = popup.querySelector('.popup__title');
-  popupTitle.textContent = 'Редактировать профиль';
-
-  const nameField = popup.querySelector('.popup__field_item_name');
-  nameField.placeholder = 'Имя';
+const openEditInfoForm = function() {
+  const nameField = editProfileModal.querySelector('.popup__field_item_name');
   nameField.value = profileName.innerText;
 
-  const aboutField = popup.querySelector('.popup__field_item_about');
-  aboutField.placeholder = 'Описание';  
-  aboutField.value = profileAbout.innerText;
+  const aboutField = editProfileModal.querySelector('.popup__field_item_about');
+  aboutField.value = profileAbout.innerText;  
 
-  mountPopup(popup);
+  toggleModal(editProfileModal);
 }
 
 /**
- * Создает из шаблона форму создания карточки.
+ * Открывает форму просмотра карточки.
  */
-const createAddCardForm = function() {
-  const popup = popupTemplate.cloneNode(true);
-  
-  let addCardForm = popup.querySelector('.popup__container');
-  addCardForm.addEventListener('submit', saveCard);
-
-  const popupTitle = popup.querySelector('.popup__title');
-  popupTitle.textContent = 'Новое место';
-
-  const nameField = popup.querySelector('.popup__field_item_name');
-  nameField.placeholder = 'Название';
-  
-  const aboutField = popup.querySelector('.popup__field_item_about');
-  aboutField.placeholder = 'Ссылка на картинку';
-
-  mountPopup(popup);
-}
-
-/**
- * Создает из шаблона форму просмотра карточки.
- */
-const createCardPopup = function(event) {
-  const popup = cardPopupTemplate.cloneNode(true);
-
+const openCard = function(event) {
   const card = event.target.closest('.card');
+
   const cardImage = card.querySelector('.card__image');
   const cardDescription = card.querySelector('.card__description');
 
-  const popupImage = popup.querySelector('.popup__card-image');
+  const popupImage = viewCardModal.querySelector('.popup__card-image');
   popupImage.src = cardImage.src;
 
-  const cardCaption = popup.querySelector('.popup__card-caption');
-  cardCaption.textContent = cardDescription.innerText;  
+  const cardCaption = viewCardModal.querySelector('.popup__card-caption');
+  cardCaption.textContent = cardDescription.innerText;
 
-  mountPopup(popup);
-}
-
-/**
- * Добавляет на форму попапа общую кнопку Удалить и добавляет созданный попап в DOM.
- *  
- * @param {*} popup Созданный попап.
- */
-const mountPopup = function(popup) {
-  const closeButton = popup.querySelector('.popup__close-button');
-  closeButton.addEventListener('click', closePopup);  
-
-  header.after(popup);  
-
-  const popupElem = page.querySelector('.popup');
-  // Если добавить класс непосредственно до или после добавления элемента в DOM,
-  // эффекта плавного открытия не будет. Если же вызвать добавление класса с помощью
-  // setTimeout, планировщик будет вызывать функцию только после завершения выполнения 
-  // текущего кода, и эффект плавного открытия сработает.
-  setTimeout(() => popupElem.classList.add('popup_opened'));  
+  toggleModal(viewCardModal);
 }
 
 /**
@@ -149,11 +94,10 @@ const mountPopup = function(popup) {
 const saveInfo = function(event) {
   event.preventDefault();
 
-  const container = event.target.closest('.popup__container');
-  profileName.textContent = container.querySelector('.popup__field_item_name').value;  
-  profileAbout.textContent = container.querySelector('.popup__field_item_about').value;
+  profileName.textContent = editProfileModal.querySelector('.popup__field_item_name').value;  
+  profileAbout.textContent = editProfileModal.querySelector('.popup__field_item_about').value;
 
-  closePopup(event);  
+  toggleModal(editProfileModal);  
 }
 
 /**
@@ -165,36 +109,16 @@ const saveInfo = function(event) {
 const saveCard = function(event) {
   event.preventDefault();
 
-  const container = event.target.closest('.popup__container');
-  
-  addCard(
-    container.querySelector('.popup__field_item_name').value,
-    container.querySelector('.popup__field_item_about').value
-  );
+  renderCard(addCard(
+    addCardModal.querySelector('.popup__field_item_place').value,
+    addCardModal.querySelector('.popup__field_item_link').value
+  ));
 
-  closePopup(event);
+  toggleModal(addCardModal);
 }
 
 /**
- * Закрывает попап.
- * 
- * @param {*} event 
- */
-const closePopup = function(event) {
-  event.preventDefault();
-  
-  const container = event.target.closest('.popup');
-  container.classList.remove('popup_opened');
-
-  // Для плавного закрытия попапа из его списка классов удаляется класс с opacity.
-  // Удаление попапа из DOM выполняется с задержкой, чтобы анимация успевала отработать корректно. 
-  // В данном случае длительность задержки имеет значение и должна быть не меньше, чем
-  // длительность, указанная в transition. 
-  setTimeout(() => container.remove(), 1000);
-}
-
-/**
- * Создает новую карточку с местом и добавляет ее в галерею.
+ * Создает новую карточку из шаблона.
  * 
  * @param {*} name Наименование места.
  * @param {*} link Ссылка на фотографию места.
@@ -204,7 +128,7 @@ const addCard = function(name, link) {
 
   const cardLink = card.querySelector('.card__image');
   cardLink.src = link;
-  cardLink.addEventListener('click', openPopup);
+  cardLink.addEventListener('click', openCard);
 
   const cardName = card.querySelector('.card__description');
   cardName.textContent = name;
@@ -215,13 +139,16 @@ const addCard = function(name, link) {
   const likeButton = card.querySelector('.card__like-button');
   likeButton.addEventListener('click', toggleLike);
 
-  // Вставка созданной карточки в начало галереи.
-  if (cardGallery.children.length === 0) {
-    cardGallery.append(card);
-  } else {
-    const firstCard = cardGallery.querySelector('.card');
-    firstCard.before(card);
-  }  
+  return card;
+}
+
+/**
+ * Добавляет карточку в DOM.
+ * 
+ * @param {*} card 
+ */
+const renderCard = function(card) {
+  cardGallery.prepend(card);
 }
 
 /**
@@ -249,11 +176,47 @@ const toggleLike = function(event) {
  */
 const fillInitialCards = function() {
   initialCards.forEach((card) => {
-    addCard(card.name, card.link);
+    renderCard(addCard(card.name, card.link));
   })
 }
 
-editButton.addEventListener('click', openPopup);
-addButton.addEventListener('click', openPopup);
+/**
+ * Работа с профилем.
+ */
+editButton.addEventListener('click', openEditInfoForm);
+
+const editInfoForm = editProfileModal.querySelector('.popup__container');
+editInfoForm.addEventListener('submit', saveInfo);
+
+const closeEditInfoForm = editProfileModal.querySelector('.popup__close-button');
+closeEditInfoForm.addEventListener('click', () => {
+  toggleModal(editProfileModal);
+});
+
+/**
+ * Работа с карточкой.
+ */
+const addCardForm = addCardModal.querySelector('.popup__container');
+
+addButton.addEventListener('click', () => {
+  addCardForm.reset();
+  toggleModal(addCardModal);
+});
+
+addCardForm.addEventListener('submit', saveCard);
+
+const closeAddCardForm = addCardModal.querySelector('.popup__close-button');
+closeAddCardForm.addEventListener('click', () => {
+  toggleModal(addCardModal);
+});
+
+/**
+ * Работа с формой просмотра карточки.
+ */
+const closeViewCardForm = viewCardModal.querySelector('.popup__close-button');
+closeViewCardForm.addEventListener('click', () => {
+  toggleModal(viewCardModal);
+});
+
 
 fillInitialCards();
