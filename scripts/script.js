@@ -2,8 +2,6 @@
 const cardTemplate = document.querySelector('#card').content;
 
 /** Элементы на странице */
-const page = document.querySelector('.page');
-const header = document.querySelector('.header');
 const editButton = document.querySelector('.profile__edit-button');
 const addButton = document.querySelector('.profile__add-button');
 const profileName = document.querySelector('.profile__name');
@@ -49,8 +47,6 @@ const initialCards = [
  * @param {*} modalWindow Попап, который нужно открыть или закрыть.
  */
 const toggleModal = function(modalWindow) {
-  event.preventDefault();
-
   modalWindow.classList.toggle('popup_opened');
 }
 
@@ -109,7 +105,7 @@ const saveInfo = function(event) {
 const saveCard = function(event) {
   event.preventDefault();
 
-  renderCard(addCard(
+  renderCard(createCardFromTemplate(
     addCardModal.querySelector('.popup__field_item_place').value,
     addCardModal.querySelector('.popup__field_item_link').value
   ));
@@ -123,7 +119,7 @@ const saveCard = function(event) {
  * @param {*} name Наименование места.
  * @param {*} link Ссылка на фотографию места.
  */
-const addCard = function(name, link) {
+const createCardFromTemplate = function(name, link) {
   const card = cardTemplate.cloneNode(true);
 
   const cardLink = card.querySelector('.card__image');
@@ -176,7 +172,7 @@ const toggleLike = function(event) {
  */
 const fillInitialCards = function() {
   initialCards.forEach((card) => {
-    renderCard(addCard(card.name, card.link));
+    renderCard(createCardFromTemplate(card.name, card.link));
   })
 }
 
@@ -189,7 +185,8 @@ const editInfoForm = editProfileModal.querySelector('.popup__container');
 editInfoForm.addEventListener('submit', saveInfo);
 
 const closeEditInfoForm = editProfileModal.querySelector('.popup__close-button');
-closeEditInfoForm.addEventListener('click', () => {
+closeEditInfoForm.addEventListener('click', (event) => {
+  event.preventDefault();
   toggleModal(editProfileModal);
 });
 
@@ -197,16 +194,16 @@ closeEditInfoForm.addEventListener('click', () => {
  * Работа с карточкой.
  */
 const addCardForm = addCardModal.querySelector('.popup__container');
+addCardForm.addEventListener('submit', saveCard);
 
 addButton.addEventListener('click', () => {
   addCardForm.reset();
   toggleModal(addCardModal);
 });
 
-addCardForm.addEventListener('submit', saveCard);
-
 const closeAddCardForm = addCardModal.querySelector('.popup__close-button');
-closeAddCardForm.addEventListener('click', () => {
+closeAddCardForm.addEventListener('click', (event) => {
+  event.preventDefault();
   toggleModal(addCardModal);
 });
 
