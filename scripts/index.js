@@ -13,34 +13,6 @@ const editProfileModal = document.querySelector('.popup_type_edit-profile');
 const addCardModal = document.querySelector('.popup_type_add-card');
 const viewCardModal = document.querySelector('.popup_type_view-card');
 
-/** Предопределенный массив с данными для заполнения карточек */
-const initialCards = [
-  {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
-
 /**
  * Возвращает форму из переданного попапа.
  * @param {*} popup 
@@ -88,6 +60,8 @@ const fillEditFormFields = function() {
 const openEditInfoForm = function() {
   fillEditFormFields();
   toggleModal(editProfileModal);
+
+  document.addEventListener('keydown', closePopupByEsc);
 }
 
 /**
@@ -111,6 +85,8 @@ const fillCard = function(card) {
 const openCard = function(event) {
   fillCard(event.target.closest('.card'));
   toggleModal(viewCardModal);
+
+  document.addEventListener('keydown', closePopupByEsc);
 }
 
 /**
@@ -149,9 +125,10 @@ const createCard = function() {
  */
 const getCardFromTemplate = function(name, link) {
   const card = cardTemplate.cloneNode(true);
-
+  
   const cardLink = card.querySelector('.card__image');
   cardLink.src = link;
+  cardLink.alt = name;
   cardLink.addEventListener('click', openCard);
 
   const cardName = card.querySelector('.card__description');
@@ -226,7 +203,7 @@ closeEditInfoButton.addEventListener('click', () => {
  * Работа с карточкой.
  */
 const addCardForm = getModalForm(addCardModal);
-addCardForm.addEventListener('submit', (evt) => {
+addCardForm.addEventListener('submit', () => {
   createCard();
   toggleModal(addCardModal);
 });
@@ -235,6 +212,8 @@ addButton.addEventListener('click', () => {
   clearAddCardFormFields();
   addCardForm.reset();
   toggleModal(addCardModal);
+
+  document.addEventListener('keydown', closePopupByEsc);
 });
 
 const closeAddCardButton = getCloseButton(addCardModal);
@@ -261,30 +240,45 @@ const popups = document.querySelectorAll('.popup');
  * @param {*} popup 
  */
 const resetPopupForm = function(popup) {
-  let formElement = getModalForm(popup);
+  const formElement = getModalForm(popup);
   if (formElement) {
     formElement.reset();
   }      
 }
 
-popups.forEach((popup) => {
-  popup.addEventListener('click', (evt) => {
-    if (evt.target.classList.contains('popup_opened')) {
-      resetPopupForm(evt.target);
-      toggleModal(evt.target);
-    }
-  });
-});
-
-document.addEventListener('keydown', (evt) => {
+/**
+ * Закрывает попап по Esc. 
+ * После того, как отрабатывает, удаляется.
+ * @param {*} evt 
+ */
+const closePopupByEsc = (evt) => {
   if (evt.key === 'Escape') {
     const activePopup = document.querySelector('.popup_opened');
     if (activePopup) {
       resetPopupForm(activePopup); 
       toggleModal(activePopup);    
+
+      document.removeEventListener('keydown', closePopupByEsc);
     }      
   }
-});
+};
 
+/**
+ * Закрывает попап по клику за пределами попапа (по фону).
+ * @param {*} evt 
+ */
+const closePopupByClickOnOutOfBound = (evt) => {
+  if (evt.target.classList.contains('popup_opened')) {
+    resetPopupForm(evt.target);
+    toggleModal(evt.target);
+  }
+};
+
+/**
+ * Устанавливает на каждый попап слушатели клика по фону.
+ */
+popups.forEach((popup) => {
+  popup.addEventListener('click', closePopupByClickOnOutOfBound);
+});
 
 fillInitialCards();

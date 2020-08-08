@@ -33,9 +33,9 @@ const hideInputError = (formElement, inputElement, selectorsList) => {
  * @param {*} buttonElement 
  * @param {*} inactiveButtonClass 
  */
-const disableButton = (buttonElement, inactiveButtonClass) => {
-  buttonElement.classList.add(inactiveButtonClass);
-  buttonElement.classList.remove('darkling-button');
+const disableButton = (buttonElement, selectorsList) => {
+  buttonElement.classList.add(selectorsList.inactiveButtonClass);
+  buttonElement.classList.remove(selectorsList.darklingButtonClass);
   buttonElement.disabled = true;
 };
 
@@ -45,9 +45,9 @@ const disableButton = (buttonElement, inactiveButtonClass) => {
  * @param {*} buttonElement 
  * @param {*} inactiveButtonClass 
  */
-const enableButton = (buttonElement, inactiveButtonClass) => {
-  buttonElement.classList.remove(inactiveButtonClass);
-  buttonElement.classList.add('darkling-button');
+const enableButton = (buttonElement, selectorsList) => {
+  buttonElement.classList.remove(selectorsList.inactiveButtonClass);
+  buttonElement.classList.add(selectorsList.darklingButtonClass);
   buttonElement.disabled = false;
 };
 
@@ -80,11 +80,11 @@ const hasInvalidInput = (inputList) => {
  * @param {*} inputList 
  * @param {*} buttonElement 
  */
-const toggleButtonState = (inputList, buttonElement, inactiveButtonClass) => {
+const toggleButtonState = (inputList, buttonElement, selectorsList) => {
   if (hasInvalidInput(inputList)) {
-    disableButton(buttonElement, inactiveButtonClass);
+    disableButton(buttonElement, selectorsList);
   } else {        
-    enableButton(buttonElement, inactiveButtonClass);
+    enableButton(buttonElement, selectorsList);
   }
 };
 
@@ -100,7 +100,7 @@ const setEventListeners = (formElement, selectorsList) => {
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', () => {
       isValid(formElement, inputElement, selectorsList);
-      toggleButtonState(inputList, saveButton, selectorsList.inactiveButtonClass);
+      toggleButtonState(inputList, saveButton, selectorsList);
     });
   });
 };
@@ -112,7 +112,7 @@ const setEventListeners = (formElement, selectorsList) => {
 const resetForm = (formElement, selectorsList) => {
   const inputList = Array.from(formElement.querySelectorAll(selectorsList.inputSelector));
   const saveButton = formElement.querySelector(selectorsList.submitButtonSelector);
-  toggleButtonState(inputList, saveButton, selectorsList.inactiveButtonClass);
+  toggleButtonState(inputList, saveButton, selectorsList);
 
   inputList.forEach((inputElement) => {
     hideInputError(formElement, inputElement, selectorsList);
@@ -144,5 +144,6 @@ enableValidation({
   submitButtonSelector: '.popup__save-button',
   inactiveButtonClass: 'popup__save-button_disabled',
   inputErrorClass: 'popup__field_type_error',
-  errorClass: 'popup__field-error_active'
+  errorClass: 'popup__field-error_active',
+  darklingButtonClass: 'darkling-button'
 });
