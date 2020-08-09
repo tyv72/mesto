@@ -85,8 +85,7 @@ const fillCard = function(card) {
 const openCard = function(event) {
   fillCard(event.target.closest('.card'));
   toggleModal(viewCardModal);
-
-  document.addEventListener('keydown', closePopupByEsc);
+  setEscListener();
 }
 
 /**
@@ -182,6 +181,36 @@ const fillInitialCards = function() {
 }
 
 /**
+ * Закрывает текущий открытый попап по Esc. 
+ * После того, как отрабатывает, удаляется.
+ * @param {*} evt 
+ */
+const closePopupByEsc = (evt) => {
+  if (evt.key === 'Escape') {
+    const activePopup = document.querySelector('.popup_opened');
+    if (activePopup) {
+      resetPopupForm(activePopup); 
+      toggleModal(activePopup);    
+      clearEscListener();
+    }      
+  }
+};
+
+/**
+ * Удаляет слушатель нажатия на Esc.
+ */
+const clearEscListener = () => {
+  document.removeEventListener('keydown', closePopupByEsc);
+}
+
+/**
+ * Устанавливает слушатель нажатия на Esc.
+ */
+const setEscListener = () => {
+  document.addEventListener('keydown', closePopupByEsc);
+}
+
+/**
  * Работа с профилем.
  */
 editButton.addEventListener('click', openEditInfoForm);
@@ -191,12 +220,14 @@ editInfoForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   saveInfo(evt);
   toggleModal(editProfileModal);  
+  clearEscListener();
 });
 
 const closeEditInfoButton = getCloseButton(editProfileModal);
 closeEditInfoButton.addEventListener('click', () => {
   editInfoForm.reset();
   toggleModal(editProfileModal);
+  clearEscListener();
 });
 
 /**
@@ -206,19 +237,20 @@ const addCardForm = getModalForm(addCardModal);
 addCardForm.addEventListener('submit', () => {
   createCard();
   toggleModal(addCardModal);
+  clearEscListener();
 });
 
 addButton.addEventListener('click', () => {
   clearAddCardFormFields();
   addCardForm.reset();
   toggleModal(addCardModal);
-
-  document.addEventListener('keydown', closePopupByEsc);
+  setEscListener();
 });
 
 const closeAddCardButton = getCloseButton(addCardModal);
 closeAddCardButton.addEventListener('click', () => {
   toggleModal(addCardModal);  
+  clearEscListener();
 });
 
 /**
@@ -227,6 +259,7 @@ closeAddCardButton.addEventListener('click', () => {
 const closeViewCardButton = getCloseButton(viewCardModal);
 closeViewCardButton.addEventListener('click', () => {
   toggleModal(viewCardModal);
+  clearEscListener();
 });
 
 /**
@@ -247,23 +280,6 @@ const resetPopupForm = function(popup) {
 }
 
 /**
- * Закрывает попап по Esc. 
- * После того, как отрабатывает, удаляется.
- * @param {*} evt 
- */
-const closePopupByEsc = (evt) => {
-  if (evt.key === 'Escape') {
-    const activePopup = document.querySelector('.popup_opened');
-    if (activePopup) {
-      resetPopupForm(activePopup); 
-      toggleModal(activePopup);    
-
-      document.removeEventListener('keydown', closePopupByEsc);
-    }      
-  }
-};
-
-/**
  * Закрывает попап по клику за пределами попапа (по фону).
  * @param {*} evt 
  */
@@ -271,6 +287,7 @@ const closePopupByClickOnOutOfBound = (evt) => {
   if (evt.target.classList.contains('popup_opened')) {
     resetPopupForm(evt.target);
     toggleModal(evt.target);
+    clearEscListener();
   }
 };
 
