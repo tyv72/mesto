@@ -1,5 +1,5 @@
-/** Шаблоны для создания элементов */
-const cardTemplate = document.querySelector('#card').content;
+import Card from './Card.js';
+import FormValidator from './FormValidator.js';
 
 /** Элементы на странице */
 const editButton = document.querySelector('.profile__edit-button');
@@ -65,30 +65,6 @@ const openEditInfoForm = function() {
 }
 
 /**
- * Заполняет карточку.
- * @param {*} card 
- */
-const fillCard = function(card) {
-  const cardImage = card.querySelector('.card__image');
-  const cardDescription = card.querySelector('.card__description');
-
-  const popupImage = viewCardModal.querySelector('.popup__card-image');
-  popupImage.src = cardImage.src;
-
-  const cardCaption = viewCardModal.querySelector('.popup__card-caption');
-  cardCaption.textContent = cardDescription.innerText;
-}
-
-/**
- * Открывает форму просмотра карточки.
- */
-const openCard = function(event) {
-  fillCard(event.target.closest('.card'));
-  toggleModal(viewCardModal);
-  setEscListener();
-}
-
-/**
  * Сохраняет введенные данные профиля. 
  */
 const saveInfo = function() {
@@ -110,36 +86,10 @@ const clearAddCardFormFields = function() {
  * @param {*} event 
  */
 const createCard = function() {
-  renderCard(getCardFromTemplate(
-    addCardModal.querySelector('.popup__field_item_place').value,
-    addCardModal.querySelector('.popup__field_item_link').value
-  ));  
-}
+  const cardName = addCardModal.querySelector('.popup__field_item_place').value;
+  const cardLink = addCardModal.querySelector('.popup__field_item_link').value;
 
-/**
- * Создает новую карточку из шаблона.
- * 
- * @param {*} name Наименование места.
- * @param {*} link Ссылка на фотографию места.
- */
-const getCardFromTemplate = function(name, link) {
-  const card = cardTemplate.cloneNode(true);
-  
-  const cardLink = card.querySelector('.card__image');
-  cardLink.src = link;
-  cardLink.alt = name;
-  cardLink.addEventListener('click', openCard);
-
-  const cardName = card.querySelector('.card__description');
-  cardName.textContent = name;
-
-  const cardTrash = card.querySelector('.card__trash');
-  cardTrash.addEventListener('click', deleteCard);
-
-  const likeButton = card.querySelector('.card__like-button');
-  likeButton.addEventListener('click', toggleLike);
-
-  return card;
+  renderCard(new Card(cardName, cardLink, '#card').getCardFromTemplate());  
 }
 
 /**
@@ -152,31 +102,12 @@ const renderCard = function(card) {
 }
 
 /**
- * Удаляет карточку.
- * 
- * @param {*} event 
- */
-const deleteCard = function(event) {
-  const card = event.target.closest('.card');
-  card.remove();
-}
-
-/**
- * Добавляет или убирает лайк с карточки.
- * 
- * @param {*} event 
- */
-const toggleLike = function(event) {
-  event.target.classList.toggle('card__like-button_liked');
-}
-
-/**
  * Заполняет галерею карточками из предопределенного массива 
  * при открытии или обновлении страницы.
  */
 const fillInitialCards = function() {
   initialCards.forEach((card) => {
-    renderCard(getCardFromTemplate(card.name, card.link));
+    renderCard(new Card(card.name, card.link, '#card').getCardFromTemplate());
   })
 }
 
@@ -299,3 +230,22 @@ popups.forEach((popup) => {
 });
 
 fillInitialCards();
+
+/**
+ * Включает валидацию для всех форм на странице.
+ */
+const settings = {
+  formSelector: '.popup__container',
+  inputSelector: '.popup__field',
+  submitButtonSelector: '.popup__save-button',
+  inactiveButtonClass: 'popup__save-button_disabled',
+  inputErrorClass: 'popup__field_type_error',
+  errorClass: 'popup__field-error_active',
+  darklingButtonClass: 'darkling-button'
+};
+
+const formList = Array.from(document.querySelectorAll(settings.formSelector));
+
+formList.forEach((formElement) => {
+  new FormValidator(settings, formElement).enableValidation();
+});
