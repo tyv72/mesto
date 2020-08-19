@@ -1,3 +1,6 @@
+/**
+ * Функции, которые дублируют аналогичные из index.js (до завершения рефакторинга)
+ */
 const viewCardModal = document.querySelector('.popup_type_view-card');
 
 /**
