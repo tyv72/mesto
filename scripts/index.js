@@ -1,5 +1,14 @@
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
+import { settings, initialCards } from './utils/constants.js';
+import { 
+  openModal, 
+  closeModal, 
+  getModalForm, 
+  setEscListener, 
+  clearEscListener, 
+  closePopupByClickOnOutOfBound 
+} from './utils/utils.js';
 
 /** Элементы на странице */
 const editButton = document.querySelector('.profile__edit-button');
@@ -14,28 +23,11 @@ const addCardModal = document.querySelector('.popup_type_add-card');
 const viewCardModal = document.querySelector('.popup_type_view-card');
 
 /**
- * Возвращает форму из переданного попапа.
- * @param {*} popup 
- */
-const getModalForm = function(popup) {
-  return popup.querySelector('.popup__container');
-};
-
-/**
  * Возвращает кнопку закрытия попапа.
  * @param {*} popup 
  */
 const getCloseButton = function(popup) {
   return popup.querySelector('.popup__close-button');
-}
-
-/**
- * Открывает или закрывает попап.
- * 
- * @param {*} modalWindow Попап, который нужно открыть или закрыть.
- */
-const toggleModal = function(modalWindow) {
-  modalWindow.classList.toggle('popup_opened');
 }
 
 /**
@@ -59,9 +51,8 @@ const fillEditFormFields = function() {
  */
 const openEditInfoForm = function() {
   fillEditFormFields();
-  toggleModal(editProfileModal);
-
-  document.addEventListener('keydown', closePopupByEsc);
+  openModal(editProfileModal);
+  setEscListener();
 }
 
 /**
@@ -89,7 +80,7 @@ const createCard = function() {
   const cardName = addCardModal.querySelector('.popup__field_item_place').value;
   const cardLink = addCardModal.querySelector('.popup__field_item_link').value;
 
-  renderCard(new Card(cardName, cardLink, '#card').getCardFromTemplate());  
+  renderCard(new Card(cardName, cardLink, '#card').getView());  
 }
 
 /**
@@ -107,42 +98,13 @@ const renderCard = function(card) {
  */
 const fillInitialCards = function() {
   initialCards.forEach((card) => {
-    renderCard(new Card(card.name, card.link, '#card').getCardFromTemplate());
+    renderCard(new Card(card.name, card.link, '#card').getView());
   })
 }
 
 /**
- * Закрывает текущий открытый попап по Esc. 
- * После того, как отрабатывает, удаляется.
- * @param {*} evt 
- */
-const closePopupByEsc = (evt) => {
-  if (evt.key === 'Escape') {
-    const activePopup = document.querySelector('.popup_opened');
-    if (activePopup) {
-      resetPopupForm(activePopup); 
-      toggleModal(activePopup);    
-      clearEscListener();
-    }      
-  }
-};
-
-/**
- * Удаляет слушатель нажатия на Esc.
- */
-const clearEscListener = () => {
-  document.removeEventListener('keydown', closePopupByEsc);
-}
-
-/**
- * Устанавливает слушатель нажатия на Esc.
- */
-const setEscListener = () => {
-  document.addEventListener('keydown', closePopupByEsc);
-}
-
-/**
- * Работа с профилем.
+ * Устанавливает слушателей для кнопки Сохранить формы редактирования профиля,
+ * кнопки закрытия формы редактирования профиля.
  */
 editButton.addEventListener('click', openEditInfoForm);
 
@@ -150,100 +112,63 @@ const editInfoForm = getModalForm(editProfileModal);
 editInfoForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
   saveInfo(evt);
-  toggleModal(editProfileModal);  
+  closeModal(editProfileModal);  
   clearEscListener();
 });
 
 const closeEditInfoButton = getCloseButton(editProfileModal);
 closeEditInfoButton.addEventListener('click', () => {
   editInfoForm.reset();
-  toggleModal(editProfileModal);
+  closeModal(editProfileModal);
   clearEscListener();
 });
 
 /**
- * Работа с карточкой.
+ * Устанавливает слушателей для кнопки Добавить, кнопки закрытия формы добавления карточки,
+ * кнопки Сохранить формы добавления карточки, кнопки закрытия формы просмотра карточки.
  */
 const addCardForm = getModalForm(addCardModal);
 addCardForm.addEventListener('submit', () => {
   createCard();
-  toggleModal(addCardModal);
+  closeModal(addCardModal);
   clearEscListener();
 });
 
 addButton.addEventListener('click', () => {
   clearAddCardFormFields();
   addCardForm.reset();
-  toggleModal(addCardModal);
+  openModal(addCardModal);
   setEscListener();
 });
 
 const closeAddCardButton = getCloseButton(addCardModal);
 closeAddCardButton.addEventListener('click', () => {
-  toggleModal(addCardModal);  
+  closeModal(addCardModal);  
   clearEscListener();
 });
 
-/**
- * Работа с формой просмотра карточки.
- */
 const closeViewCardButton = getCloseButton(viewCardModal);
 closeViewCardButton.addEventListener('click', () => {
-  toggleModal(viewCardModal);
+  closeModal(viewCardModal);
   clearEscListener();
 });
-
-/**
- * Работа с попапами - закрытие по Esc и по клику на фон.
- */
-const popups = document.querySelectorAll('.popup');
-
-/**
- * Перезагружает форму попапа, если она у него есть.
- * 
- * @param {*} popup 
- */
-const resetPopupForm = function(popup) {
-  const formElement = getModalForm(popup);
-  if (formElement) {
-    formElement.reset();
-  }      
-}
-
-/**
- * Закрывает попап по клику за пределами попапа (по фону).
- * @param {*} evt 
- */
-const closePopupByClickOnOutOfBound = (evt) => {
-  if (evt.target.classList.contains('popup_opened')) {
-    resetPopupForm(evt.target);
-    toggleModal(evt.target);
-    clearEscListener();
-  }
-};
 
 /**
  * Устанавливает на каждый попап слушатели клика по фону.
  */
+const popups = document.querySelectorAll('.popup');
 popups.forEach((popup) => {
   popup.addEventListener('click', closePopupByClickOnOutOfBound);
 });
 
+/**
+ * Вызывает функцию заполнения галереи карточками из предопределенного массива.
+ */
 fillInitialCards();
 
 /**
  * Включает валидацию для всех форм на странице.
  */
-const settings = {
-  formSelector: '.popup__container',
-  inputSelector: '.popup__field',
-  submitButtonSelector: '.popup__save-button',
-  inactiveButtonClass: 'popup__save-button_disabled',
-  inputErrorClass: 'popup__field_type_error',
-  errorClass: 'popup__field-error_active',
-  darklingButtonClass: 'darkling-button'
-};
-
 const formList = Array.from(document.querySelectorAll(settings.formSelector));
 
 formList.forEach((formElement) => {
