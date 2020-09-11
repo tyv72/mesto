@@ -1,8 +1,0 @@
-.card-gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 282px);
-  justify-content: center;
-  gap: 18px;
-
-  margin-top: 50px;
-}
