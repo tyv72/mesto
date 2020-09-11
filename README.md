@@ -14,4 +14,4 @@
 
 **GitHub Pages**
 
-* [Ссылка на проект](https://tyv72.github.io/mesto/)
+* [Ссылка на проект](https://tyv72.github.io/mesto/index.html)
