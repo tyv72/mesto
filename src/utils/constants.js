@@ -1,6 +1,6 @@
 export const settings = {
-  formSelector: '.popup__container',
-  imageSelector: '.popup__card-container',
+  formSelector: '.popup__form',
+  popupContainerSelector: '.popup__container',
   inputSelector: '.popup__field',
   closeButtonSelector: '.popup__close-button',
   submitButtonSelector: '.popup__save-button',

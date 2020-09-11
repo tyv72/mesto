@@ -30,9 +30,7 @@ const cardGallery = new Section(
       const card = new Card(
         place, 
         link, 
-        () => {
-          cardViewModal.open({place, link});
-        }, 
+        cardViewModal.open.bind(cardViewModal), 
         '#card'
       );
       cardGallery.addItem(card.getView());
@@ -58,10 +56,8 @@ const addCardModal = new PopupWithForm(
   ({place, link}) => {
     const card = new Card(
       place, 
-      link, 
-      () => {
-        cardViewModal.open({place, link});
-      }, 
+      link,
+      cardViewModal.open.bind(cardViewModal), 
       '#card'
     );
     

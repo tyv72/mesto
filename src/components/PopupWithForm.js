@@ -32,25 +32,15 @@ export default class PopupWithForm extends Popup{
   }
 
   /**
-   * Делает кнопку Сохранить на форме недоступной.
+   * Очищает значения полей формы.
    */
-  _disableSubmitButton() {
-    this._submitButton.classList.add(settings.inactiveButtonClass);
-    this._submitButton.disabled = true;
-  };
-
-  /**
-   * Делает кнопку Сохранить на форме доступной.
-   */
-  _enableSubmitButton() {
-    this._submitButton.classList.remove(settings.inactiveButtonClass);
-    this._submitButton.disabled = false;
-  };
+  _clearInputValues() {
+    this._inputList.forEach(input => input.value = '');      
+  }
 
   /**
    * Устанавливает дополнительные слушатели для событий формы:
-   * - слушатель сабмита;
-   * - слушатель клика по фону (форма должна закрываться).
+   * - слушатель сабмита.
    */
   setEventListeners() {
     super.setEventListeners();
@@ -58,16 +48,8 @@ export default class PopupWithForm extends Popup{
     this._form.addEventListener('submit', (evt) => {
       evt.preventDefault();
       this._handleFormSubmit(this._getInputValues());
-      this.close();  
-      this._handleEscClose();
-    });
-
-    this._popup.addEventListener('click', (evt) => {
-      if (!evt.target.closest(settings.formSelector)) {
-        this.close();
-        this._handleEscClose();      
-      }                
-    });
+      this.close();
+    });    
   }
 
   /**
@@ -81,17 +63,16 @@ export default class PopupWithForm extends Popup{
   /**
    * Открывает форму. 
    * Заполняет поля начальными значениями, если таковые имеются.
-   * Управляет доступностью кнопки Сохранить в зависимости от заполненности
-   * полей формы. 
    * @param {*} initialValues 
    */
   open(initialValues) {
     if (initialValues) {
-      this._setInitialInputValues(initialValues);
-      this._enableSubmitButton();
+      this._setInitialInputValues(initialValues);      
     } else {
-      this._disableSubmitButton();
-    }   
+      this._clearInputValues();
+    }  
+
+    this._form.reset();
 
     super.open();
   }

@@ -7,10 +7,17 @@
   color: #FFFFFF;
 
   margin-top: 16px;
+
+  max-width: 318px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 @media screen and (max-width: 680px) {
   .profile__about {
     margin-top: 0;
+
+    max-width: 280px;
   }
 }

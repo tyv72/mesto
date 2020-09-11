@@ -39,7 +39,8 @@ export default class Card {
    */
   _setEventListeners () {
     const cardImage = this._view.querySelector('.card__image');
-    cardImage.addEventListener('click', this._openCardHandler);
+    cardImage.addEventListener('click', 
+      () => this._openCardHandler({name: this._name, link: this._link}));
     
     const cardTrash = this._view.querySelector('.card__trash');
     cardTrash.addEventListener('click', this._remove);

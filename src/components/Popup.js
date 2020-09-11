@@ -4,14 +4,6 @@ import { settings } from '../utils/constants.js';
 export default class Popup {
   constructor (popupSelector) {
     this._popup = document.querySelector(popupSelector);
-    this._closeButton = this._popup.querySelector(settings.closeButtonSelector);
-  }
-
-  /**
-   * Проверяет, открыт ли попап.
-   */
-  _isPopupOpened() {
-    return this._popup.classList.contains(settings.openPopupClass);
   }
 
   /**
@@ -19,40 +11,30 @@ export default class Popup {
    * @param {*} evt 
    */
   _closePopupByEsc = (evt) => { 
-    if ((evt.key === 'Escape') && (this._isPopupOpened())) {
-      this.close();    
-      this._handleEscClose(false);      
+    if (evt.key === 'Escape') {
+      this.close();      
     }
   };
 
   /**
-   * Управляет установкой или снятием слушателя нажатия на Esc
-   * в зависимости от того, открывается или закрывается попап.
-   * @param {*} isPopupOpening 
-   */
-  _handleEscClose(isPopupOpening) {
-    if (isPopupOpening) {
-      document.addEventListener('keydown', this._closePopupByEsc);
-    } else {
-      document.removeEventListener('keydown', this._closePopupByEsc);
-    }    
-  }
-
-  /**
-   * Устанавливает слушателя клика по кнопке закрытия попапа.
+   * Устанавливает слушателей:
+   * - клика по кнопке закрытия попапа;
+   * - клика по фону около попапа.
    */
   setEventListeners() {
-    this._closeButton.addEventListener('click', () => {
-      this.close();
-      this._handleEscClose();
-    });     
+    this._popup.addEventListener('click', (evt) => {
+      if (!evt.target.closest(settings.popupContainerSelector) 
+        || evt.target.closest(settings.closeButtonSelector)) {
+        this.close();      
+      }                
+    });
   }
 
   /**
    * Открывает попап.
    */
   open() {
-    this._handleEscClose(true);
+    document.addEventListener('keyup', this._closePopupByEsc);
     this._popup.classList.add(settings.openPopupClass);
   }
 
@@ -60,7 +42,7 @@ export default class Popup {
    * Закрывает попап.
    */
   close() {
-    this._handleEscClose();
+    document.removeEventListener('keyup', this._closePopupByEsc);
     this._popup.classList.remove(settings.openPopupClass);
   }
 }

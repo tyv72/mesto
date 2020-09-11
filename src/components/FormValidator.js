@@ -112,7 +112,8 @@ class FormValidator {
       evt.preventDefault();         
     });
 
-    this._form.addEventListener('reset', () => {
+    this._form.addEventListener('reset', (evt) => {
+      evt.preventDefault();
       this._resetForm();            
     });
 
