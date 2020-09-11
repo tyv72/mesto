@@ -1,7 +1,10 @@
 export const settings = {
   formSelector: '.popup__container',
+  imageSelector: '.popup__card-container',
   inputSelector: '.popup__field',
+  closeButtonSelector: '.popup__close-button',
   submitButtonSelector: '.popup__save-button',
+  openPopupClass: 'popup_opened',
   inactiveButtonClass: 'popup__save-button_disabled',
   inputErrorClass: 'popup__field_type_error',
   errorClass: 'popup__field-error_active',
@@ -11,27 +14,27 @@ export const settings = {
 /** Предопределенный массив с данными для заполнения карточек */
 export const initialCards = [
   {
-      name: 'Архыз',
+      place: 'Архыз',
       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
   },
   {
-      name: 'Челябинская область',
+      place: 'Челябинская область',
       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
   },
   {
-      name: 'Иваново',
+      place: 'Иваново',
       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
   },
   {
-      name: 'Камчатка',
+      place: 'Камчатка',
       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
   },
   {
-      name: 'Холмогорский район',
+      place: 'Холмогорский район',
       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
   },
   {
-      name: 'Байкал',
+      place: 'Байкал',
       link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
