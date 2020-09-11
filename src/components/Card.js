@@ -1,9 +1,8 @@
-import { openModal, setEscListener } from './utils/utils.js';
-
-class Card {
-  constructor(name, link, templateSelector) {
+export default class Card {
+  constructor(name, link, openCardHandler, templateSelector) {
     this._name = name;
     this._link = link;
+    this._openCardHandler = openCardHandler;
     this._templateSelector = templateSelector;    
   }  
 
@@ -40,15 +39,13 @@ class Card {
    */
   _setEventListeners () {
     const cardImage = this._view.querySelector('.card__image');
-    cardImage.addEventListener('click', this._openPopup);
+    cardImage.addEventListener('click', this._openCardHandler);
     
     const cardTrash = this._view.querySelector('.card__trash');
     cardTrash.addEventListener('click', this._remove);
 
     const likeButton = this._view.querySelector('.card__like-button');
     likeButton.addEventListener('click', this._toggleLike);
-
-    return this._view;
   }
 
   /**
@@ -63,32 +60,6 @@ class Card {
    * Удаляет карточку.
    */
   _remove = () => {
-    // Попробовала сделать this._view = null, карточка перестала удаляться.
     this._view.remove();
-  }
-
-  /**
-   * Открывает форму просмотра карточки.
-   */
-  _openPopup = () => {
-    const viewCardModal = document.querySelector('.popup_type_view-card');
-
-    this._fillPopup(viewCardModal);
-    openModal(viewCardModal);
-    setEscListener();
-  }
-
-  /**
-   * Заполняет модалку данными текущей карточки.
-   */
-  _fillPopup = (viewCardModal) => {
-    const popupImage = viewCardModal.querySelector('.popup__card-image');
-    popupImage.src = this._link;
-
-    const cardCaption = viewCardModal.querySelector('.popup__card-caption');
-    cardCaption.textContent = this._name;
-  }
-  
+  }    
 }
-
-export default Card;

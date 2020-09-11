@@ -3,9 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./pages/index.css">
-    <title>Место</title>
-    <script src="./scripts/index.js" defer type="module"></script>
+    <title>Место</title>    
   </head>
   <body>
     <div class="page">
@@ -19,9 +17,9 @@
             <img src="./images/Close-icon.svg" alt="Закрыть" class="popup__close-logo">
           </button>         
           <p class="popup__title">Редактировать профиль<p>
-          <input type="text" id="profile-name" class="popup__field popup__field_item_name" placeholder="Имя" minlength=2 maxlength=40 required>
+          <input type="text" id="profile-name" name="name" class="popup__field popup__field_item_name" placeholder="Имя" minlength=2 maxlength=40 required>
           <span id="profile-name-error" class="popup__field-error"></span>
-          <input type="text" id="profile-about" class="popup__field popup__field_item_about" placeholder="Описание" minlength=2 maxlength=200 required>
+          <input type="text" id="profile-about" name="about" class="popup__field popup__field_item_about" placeholder="Описание" minlength=2 maxlength=200 required>
           <span id="profile-about-error" class="popup__field-error"></span>               
           <button type="submit" class="popup__save-button darkling-button">Сохранить</button>
         </form>                                    
@@ -33,9 +31,9 @@
             <img src="./images/Close-icon.svg" alt="Закрыть" class="popup__close-logo">
           </button>         
           <p class="popup__title">Новое место<p>
-          <input type="text" id="card-place" class="popup__field popup__field_item_place" placeholder="Название" minlength=1 maxlength=30 required>
+          <input type="text" id="card-place" name="place" class="popup__field popup__field_item_place" placeholder="Название" minlength=1 maxlength=30 required>
           <span id="card-place-error" class="popup__field-error"></span>
-          <input type="url" id="card-link" class="popup__field popup__field_item_link" placeholder="Ссылка на картинку" required>               
+          <input type="url" id="card-link" name="link" class="popup__field popup__field_item_link" placeholder="Ссылка на картинку" required>               
           <span id="card-link-error"class="popup__field-error"></span>
           <button type="submit" class="popup__save-button darkling-button">Сохранить</button>
         </form>                                    
