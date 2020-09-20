@@ -1,11 +1,11 @@
 export default class Card {
-  constructor({_id, name, link, likes, owner}, isTrashInvisible, hasMyLike, openCardHandler, removeCardHandler, api, templateSelector) {
+  constructor({_id, name, link, likes, owner}, isMyCard, hasMyLike, openCardHandler, removeCardHandler, api, templateSelector) {
     this._id = _id;
     this._name = name;
     this._link = link;
     this._likes = likes;
     this._owner = owner;
-    this._isTrashInvisible = isTrashInvisible;
+    this._isMyCard = isMyCard;
     this._hasMyLike = hasMyLike;
 
     this._api = api;
@@ -31,7 +31,7 @@ export default class Card {
     const cardLikes = this._view.querySelector('.card__likes-count');
     cardLikes.textContent = this._likes.length;
 
-    if (this._isTrashInvisible) {
+    if (!this._isMyCard) {
       this._view.querySelector('.card__trash').classList.add('card__trash_invisible');
     }
 

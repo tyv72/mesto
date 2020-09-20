@@ -47,12 +47,10 @@ const cardRemoveModal = new PopupWithForm(
       })
       .then((cards) => {
         cardGallery.renderItems(cards);
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        // форма закрывается только после завершения удаления.
+        // форма закрывается только после успешного завершения удаления.
         cardRemoveModal.close();
-      });            
+      })
+      .catch((err) => console.log(err));            
   }
 );
 cardRemoveModal.setEventListeners();
@@ -61,21 +59,21 @@ cardRemoveModal.setEventListeners();
 const cardGallery = new Section(
   (data) => {
     // Определяется, нужно ли рисовать иконку удаления на карточке, по данным владельца.
-    const isTrashInvisible = data.owner._id !== userInfo.getUserId();
+    const isMyCard = data.owner._id === userInfo.getUserId();
     // При создании карточки по данным с сервера определяется, есть ли на ней лайк пользователя,
     // чтобы правильно стилизовать кнопку лайка.
     const hasMyLike = data.likes.some((like) => {return like._id === userInfo.getUserId()});
     
     const card = new Card(
       data,
-      isTrashInvisible,
+      isMyCard,
       hasMyLike,
       cardViewModal.open.bind(cardViewModal), 
       cardRemoveModal.open.bind(cardRemoveModal),
       api,
       '#card'
     );
-    cardGallery.addItem(card.getView());
+    cardGallery.addItem(card.getView(), isMyCard);
   },
   '.card-gallery'
 );
@@ -90,11 +88,9 @@ const editProfileModal = new PopupWithForm(
         userInfo.setUserInfo(data._id, data.name, data.about);
         profileName.textContent = data.name;  
         profileAbout.textContent = data.about;
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
         editProfileModal.close();
-      });
+      })
+      .catch((err) => console.log(err));
   }
 );
 editProfileModal.setEventListeners();
@@ -108,11 +104,9 @@ const editAvatarModal = new PopupWithForm(
       .then((data) => {
         userInfo.setUserAvatar(data.avatar);
         profileAvatarImg.src = data.avatar;
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
         editAvatarModal.close();
-      });
+      })
+      .catch((err) => console.log(err));
   }
 );
 editAvatarModal.setEventListeners();
@@ -127,20 +121,27 @@ const addCardModal = new PopupWithForm(
   '.popup_type_add-card', 
   ({name, link}) => {
     api
-      .addCard({name, link})
-      .then(() => {
-        // при каждом локальном обновлении списка карт (добавлении и удалении карточки)
-        // перерисовывается весь список (т.к. другие пользователи могли добавить
-        // новые карточки).        
-        return api.getAllCards();
-      })
+      // перед каждым добавлением карточки обновляется весь список 
+      // (т.к. другие пользователи могли добавить новые карточки).
+      .getAllCards()
       .then((cards) => {
         cardGallery.renderItems(cards);
+        return api.addCard({name, link});
       })
-      .catch((err) => console.log(err))
-      .finally(() => {
+      .then((data) => {
+        const card = new Card(
+          data,
+          true,
+          false,
+          cardViewModal.open.bind(cardViewModal), 
+          cardRemoveModal.open.bind(cardRemoveModal),
+          api,
+          '#card'
+        );
+        cardGallery.addItem(card.getView(), true);
         addCardModal.close();
-      });    
+      })      
+      .catch((err) => console.log(err));    
   }
 );
 addCardModal.setEventListeners();

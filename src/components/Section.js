@@ -6,7 +6,7 @@ export default class Section {
   }
 
   /**
-   * Выполняет отрисовку списка карточек.
+   * Выполняет отрисовку списка элементов.
    */
   renderItems(items) {
     const oldItems = Array.from(this._container.children);
@@ -16,10 +16,16 @@ export default class Section {
   }
 
   /**
-   * Добавляет карточку в разметку.
+   * Добавляет элемент в разметку.
+   * В зависимости от переданного флага добавляется в начало либо в конец контейнера.
    * @param {*} element 
+   * @param {*} isPrepended 
    */
-  addItem(element) {
-    this._container.append(element);
+  addItem(element, isPrepended) {
+    if (isPrepended) { 
+      this._container.prepend(element); 
+    } else { 
+      this._container.append(element); 
+    } 
   }
 }
